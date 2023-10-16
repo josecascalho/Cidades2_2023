@@ -74,6 +74,7 @@ def main():
 	#frontier_nodes.push(root)
 	frontier_nodes.add(root)
 	while end== False:
+		# Test
 		print("Size of frontiers nodes:",frontier_nodes.get_size())
 		if frontier_nodes.empty():
 			end = True
@@ -86,6 +87,16 @@ def main():
 			# Option: Uniform
 			node = frontier_nodes.get_sorted()
 			visited_nodes.append(node)
+			#
+			# Remover todos os nós que têm o mesmo nome na queue!
+			# Melhorar este "remove_name"
+			if not frontier_nodes.empty():
+				print("Node name to remove:",node.get_name())
+				frontier_nodes.remove_by_name(node)
+			# Test
+			print("Frontier after removing:")
+			frontier_nodes.print_queue("after removing")
+
 			if node.get_name() == goal_node_name:
 				end = True
 				solution = True
@@ -100,19 +111,23 @@ def main():
 						# if not in frontier nor in *visited nodes*
 						# Test
 						#print("New node:",new_node.get_name())
-						if not in_nodes_list(cn["to"],frontier_nodes.get_list()):
-							if not in_nodes_list(cn["to"],visited_nodes):
-								#### Preparar h_star ###
-								value = get_heuristic_value(heuristic,cn["to"] )
-								print("Heuristic from the city ",cn["to"]," to Faro is:",value)
-								new_node = nodes.Node(cn["to"],node,cn["cost"])
-								# Test
-								#print("New node not in the frontiers and not visited!")
-								#frontier_nodes.push(new_node)
-								frontier_nodes.add(new_node)
-								# Test
-								#frontier_nodes.print_stack("Stack")
-								frontier_nodes.print_queue("Queue")
+						# #####################################################
+						# ? Será que temos de testar se estão no nó fronteira?
+						# #####################################################
+						#if not in_nodes_list(cn["to"],frontier_nodes.get_list()):
+						if not in_nodes_list(cn["to"],visited_nodes):
+							#### Preparar h_star ###
+							#value = get_heuristic_value(heuristic,cn["to"] )
+							#print("Heuristic from the city ",cn["to"]," to Faro is:",value)
+
+							new_node = nodes.Node(cn["to"],node,cn["cost"])
+							# Test
+							#print("New node not in the frontiers and not visited!")
+							#frontier_nodes.push(new_node)
+							frontier_nodes.add(new_node)
+							# Test
+							#frontier_nodes.print_stack("Stack")
+				frontier_nodes.print_queue("Queue")
 	if solution == True:
 		print("Last node:",last_node.get_name())
 		print("Root node:",root.get_name())
